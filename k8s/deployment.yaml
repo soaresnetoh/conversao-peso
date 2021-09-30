@@ -1,0 +1,36 @@
+# Deployment do Conversão Peso
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversao-peso
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: conversao-peso
+  template:
+    metadata:
+      labels:
+        app: conversao-peso
+    spec:
+      containers:
+        - name: conversao-peso
+          image: hernanisoares/conversaopeso:v1
+          ports:
+            - containerPort: 80
+---
+# Service da aplicação web
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: conversao-peso
+spec:
+  selector:
+    app: conversao-peso
+  ports:
+    - port: 80
+      protocol: TCP
+      name: http
+      nodePort: 30000
+  type: NodePort
