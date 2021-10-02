@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: conversao-peso
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: conversao-peso
@@ -32,5 +32,4 @@ spec:
     - port: 80
       protocol: TCP
       name: http
-      nodePort: 30000
   type: LoadBalancer
