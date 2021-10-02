@@ -17,8 +17,8 @@ jobs:
       - name: Docker build and push
         uses: docker/build-push-action@v2.7.0
         with:
-          context: ./src
-          file: ./src/Dockerfile
+          context: ./
+          file: ./Dockerfile
           push: true
           tags: |
             hernanisoares/conversaopeso:latest
