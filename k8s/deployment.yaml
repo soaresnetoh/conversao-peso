@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: conversao-peso
 spec:
-  replicas: 7
+  replicas: 3
   selector:
     matchLabels:
       app: conversao-peso
