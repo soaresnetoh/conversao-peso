@@ -15,10 +15,12 @@ spec:
     spec:
       containers:
         - name: conversao-peso
-          image: hernanisoares/conversaopeso:v1
+          image: hernanisoares/conversaopeso:latest
           ports:
             - containerPort: 80
+            
 ---
+
 # Service da aplicação web
 
 apiVersion: v1

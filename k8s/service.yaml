@@ -1,0 +1,14 @@
+# Service da aplicação web
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: conversao-peso
+spec:
+  selector:
+    app: conversao-peso
+  ports:
+    - port: 80
+      protocol: TCP
+      name: http
+  type: LoadBalancer

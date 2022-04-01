@@ -7,7 +7,15 @@ jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+
       - name: Docker Login
         uses: docker/login-action@v1.10.0
         with:
@@ -15,10 +23,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PWD }}
           
       - name: Docker build and push
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v2.10.0
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./src
+          platforms: linux/amd64,linux/arm64
+          file: ./src/Dockerfile
           push: true
           tags: |
             hernanisoares/conversaopeso:latest
@@ -28,25 +37,15 @@ jobs:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       
-      - name: "Configure AWS Credentials"
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-          
-      - name: Kubernetes Set Context
-        uses: Azure/k8s-set-context@v2
+      - uses: azure/k8s-set-context@v2
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG_K8S }}
-
-      - uses: prepor/action-aws-iam-authenticator@master
-      - run: aws-iam-authenticator version
+#           context: <context name> # current-context from kubeconfig is used as default
       - name: Deploy to Kubernetes cluster
-        uses: Azure/k8s-deploy@v1.5
+        uses: Azure/k8s-deploy@v3.0
         with:
           images: hernanisoares/conversaopeso:${{ github.run_number }}
           manifests: |
