@@ -10,7 +10,7 @@ docker image build -t hernanisoares/conversaopeso:v1 .
 docker image tag hernanisoares/conversaopeso:v1 hernanisoares/conversaopeso:latest
 ```
 
-- libera o terminal
+- libera o terminal 
 ``` sh
 docker container run -d -p 8080:80 --name conversaopeso hernanisoares/conversaopeso:v1
 ```
